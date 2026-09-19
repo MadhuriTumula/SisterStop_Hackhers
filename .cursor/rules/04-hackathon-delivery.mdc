@@ -1,0 +1,30 @@
+---
+description: Hackathon delivery, deployment, demo, and submission standards
+alwaysApply: false
+---
+
+# Hackathon Delivery Rule
+
+Optimize for a working, deployable demo.
+
+Every new feature must answer:
+- Is it visible in a 90-second demo?
+- Does it strengthen a primary sponsor track?
+- Can it fail safely with fallback data?
+- Does it risk breaking the working MVP?
+
+Before major refactors:
+- Preserve a working build.
+- Do not replace working screens unless necessary.
+- Run npm run build after major changes.
+
+Keep README.md current with:
+- What the app does
+- Technologies used
+- Local setup
+- Environment variables
+- Sponsor integrations
+- Safety disclaimer
+- Deployment link placeholder
+
+Maintain docs/SUBMISSION_CHECKLIST.md as final deliverables are completed.

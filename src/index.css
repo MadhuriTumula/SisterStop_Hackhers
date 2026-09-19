@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #080b18;
+  --color-surface: #11172a;
+  --color-elevated: #19213a;
+  --color-hairline: #24304f;
+  --color-brand: #8b5cf6;
+  --color-brand-soft: #a78bfa;
+  --color-calm: #2dd4bf;
+  --color-safety: #fbbf24;
+  --color-alert: #fb7185;
+  --color-paper: #f8fafc;
+  --color-muted: #94a3b8;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --radius-card: 1.25rem;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-ink);
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100dvh;
+    background:
+      radial-gradient(60rem 40rem at 15% -10%, rgba(139, 92, 246, 0.18), transparent 60%),
+      radial-gradient(50rem 36rem at 95% 0%, rgba(45, 212, 191, 0.12), transparent 55%),
+      var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-calm);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-[var(--radius-card)] border border-hairline/70 bg-surface/80 backdrop-blur-sm;
+  }
+
+  .card-elevated {
+    @apply rounded-[var(--radius-card)] border border-hairline bg-elevated/90 shadow-lg shadow-black/30;
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .btn-safety {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold
+      transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply bg-brand text-white hover:bg-brand-soft;
+  }
+
+  .btn-secondary {
+    @apply border border-hairline bg-elevated text-paper hover:border-brand/60 hover:bg-elevated/70;
+  }
+
+  .btn-ghost {
+    @apply text-muted hover:bg-elevated/60 hover:text-paper;
+  }
+
+  .btn-safety {
+    @apply bg-alert text-[#3b0713] hover:bg-alert/85;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.28s ease-out both;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-paper;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-hairline bg-ink/60 px-3.5 py-2.5 text-sm text-paper
+      transition-colors placeholder:text-muted focus:border-brand focus:outline-none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

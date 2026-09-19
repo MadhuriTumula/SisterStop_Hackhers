@@ -1,0 +1,27 @@
+---
+description: Safety, privacy, sensitive-content, and UI copy constraints
+globs: src/**/*,api/**/*,docs/**/*
+alwaysApply: false
+---
+
+# Safety and Privacy Rule
+
+Read docs/SAFETY_POLICY.md before changing safety-related features or copy.
+
+Never:
+- Guarantee safety.
+- Claim emergency services were contacted.
+- Impersonate police, dispatch, MARTA, employers, or real people.
+- Diagnose medical or mental-health conditions.
+- Expose precise rider locations, home addresses, phone numbers, legal names, or contact information.
+- Let an LLM determine whether to call emergency services.
+
+When immediate danger is mentioned:
+- Tell the user to call 911.
+- Link or route to the Safety Hub.
+- Keep language direct and calm.
+- Do not promise that the app will intervene.
+
+Use aliases, route names, station zones, and broad time windows in buddy matching.
+
+All generated audio must be labeled as comfort audio or guided support.

@@ -1,0 +1,22 @@
+---
+description: React, TypeScript, Tailwind, and UI implementation standards
+globs: src/**/*.tsx,src/**/*.ts
+alwaysApply: false
+---
+
+# Frontend Rule
+
+Use React with TypeScript and small composable components.
+
+Requirements:
+- Use named interfaces/types for component props.
+- Use lucide-react for icons.
+- Use Tailwind utility classes.
+- Use Framer Motion only for meaningful microinteractions.
+- Include loading, empty, and error states.
+- Keep all pages responsive from 390px mobile width through desktop.
+- Avoid large, hardcoded text blocks in components; store constants in data or lib files.
+- Use aria-label on icon-only buttons.
+- Do not use color alone to communicate status.
+- Keep user-facing copy calm, concise, and non-alarmist.
+- Every peer-match screen must include a visible leave or report option.

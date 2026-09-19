@@ -1,0 +1,41 @@
+{
+  "name": "marta-mate",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MARTA MATE — your calm, connected ride home. A privacy-conscious safety and well-being companion for late-shift transit riders.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "generate:audio": "node scripts/generate-audio.mjs"
+  },
+  "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
+    "@google/genai": "^1.0.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.11.0",
+    "lucide-react": "^0.454.0",
+    "pg": "^8.13.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "recharts": "^2.13.0",
+    "sonner": "^1.7.0",
+    "tailwind-merge": "^2.5.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vercel/node": "^3.2.24",
+    "@vitejs/plugin-react": "^4.3.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}
