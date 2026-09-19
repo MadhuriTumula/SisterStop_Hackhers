@@ -65,6 +65,18 @@ const usePreviewFlag = () => {
   return { isPreview, startPreview, endPreview };
 };
 
+/**
+ * Auth0 refuses to be framed, so from inside the phone-preview iframe the login
+ * page must open in the top window rather than the frame.
+ */
+const openLoginUrl = (url: string) => {
+  if (window.top && window.top !== window.self) {
+    window.top.location.assign(url);
+    return;
+  }
+  window.location.assign(url);
+};
+
 const Auth0SessionProvider = ({ children }: { children: ReactNode }) => {
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
   const { isPreview, startPreview, endPreview } = usePreviewFlag();
@@ -90,12 +102,13 @@ const Auth0SessionProvider = ({ children }: { children: ReactNode }) => {
         : null,
       signIn: () => {
         endPreview();
-        void loginWithRedirect();
+        void loginWithRedirect({ openUrl: openLoginUrl });
       },
       signUp: () => {
         endPreview();
         void loginWithRedirect({
           authorizationParams: { screen_hint: "signup" },
+          openUrl: openLoginUrl,
         });
       },
       signOut: () => {

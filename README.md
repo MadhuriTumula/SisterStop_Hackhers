@@ -50,6 +50,27 @@ moon) overrides that and persists. The light palette is selected, not inverted:
 accents are re-stepped so they still clear contrast on white, and the charts
 carry a separately validated palette per mode.
 
+### Phone preview
+
+The header has a **Phone preview** toggle (desktop widths only). It renders the
+app inside an iframe at phone dimensions — iPhone 15, Pixel 8, or iPhone SE —
+so you can show the mobile experience from a laptop during a demo or a
+recording, without opening DevTools.
+
+It uses an iframe rather than a narrow container on purpose: CSS media queries
+resolve against the viewport, and an iframe has its own. A 393px-wide `div`
+would show desktop-breakpoint styles squeezed into a phone-width column, which
+is not what a phone shows. The frame gives the real mobile layout, bottom nav
+and safe-area padding included.
+
+Link straight to it with `?preview=phone`:
+
+```
+https://your-app.vercel.app/calm?preview=phone
+```
+
+Sign-in opens in the top window, since Auth0's login page refuses to be framed.
+
 ### Other commands
 
 ```bash
