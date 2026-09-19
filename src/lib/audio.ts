@@ -13,6 +13,11 @@ export interface AudioPlayback {
 const scriptFor = (audioType: AudioType): string =>
   AUDIO_TOOLS.find((tool) => tool.id === audioType)?.script ?? "";
 
+export type AudioRequest = { audioType: AudioType } | { text: string };
+
+const spokenTextOf = (request: AudioRequest): string =>
+  "text" in request ? request.text : scriptFor(request.audioType);
+
 const fileExists = async (url: string): Promise<boolean> => {
   try {
     const response = await fetch(url, { method: "HEAD" });
@@ -29,12 +34,12 @@ const fileExists = async (url: string): Promise<boolean> => {
  * 2. The pre-generated MP3 in public/audio, if it has been added.
  * 3. The browser's own speech synthesis, reading the same reviewed script.
  */
-export const resolveAudio = async (audioType: AudioType): Promise<AudioPlayback> => {
+export const resolveAudio = async (request: AudioRequest): Promise<AudioPlayback> => {
   try {
     const response = await fetch("/api/elevenlabs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ audioType }),
+      body: JSON.stringify(request),
     });
 
     const contentType = response.headers.get("content-type") ?? "";
@@ -59,7 +64,7 @@ export const resolveAudio = async (audioType: AudioType): Promise<AudioPlayback>
 };
 
 export const speak = (
-  audioType: AudioType,
+  request: AudioRequest,
   handlers: { onEnd?: () => void; onError?: () => void } = {},
 ): boolean => {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
@@ -67,7 +72,7 @@ export const speak = (
     return false;
   }
 
-  const utterance = new SpeechSynthesisUtterance(scriptFor(audioType));
+  const utterance = new SpeechSynthesisUtterance(spokenTextOf(request));
   utterance.rate = 0.92;
   utterance.pitch = 1;
   utterance.onend = () => handlers.onEnd?.();

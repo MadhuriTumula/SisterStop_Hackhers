@@ -4,8 +4,11 @@ import {
   PhoneCall,
   RefreshCw,
   Sparkles,
+  Square,
+  Volume2,
   Wind,
 } from "lucide-react";
+import { useAudioTool } from "../hooks/useAudioTool";
 import type { CalmAction, CalmCoachResponse } from "../types/api";
 import type { CalmCoachStatus } from "../hooks/useCalmCoach";
 import { cn } from "../lib/utils";
@@ -24,7 +27,12 @@ const ACTION_LABEL: Record<CalmAction, string> = {
   request_checkin: "Start a buddy check-in",
 };
 
+const SPOKEN_ID = "calm_coach_reply";
+
 const CalmCoachCard = ({ status, response, onAction, onRetry }: CalmCoachCardProps) => {
+  const { activeId, status: audioStatus, playText, stop } = useAudioTool();
+  const speaking = activeId === SPOKEN_ID && audioStatus !== "idle";
+
   if (status === "idle") {
     return (
       <section className="card p-5" aria-label="Calm Coach">
@@ -74,10 +82,37 @@ const CalmCoachCard = ({ status, response, onAction, onRetry }: CalmCoachCardPro
           />
           Calm Coach
         </h2>
-        <button type="button" className="btn-ghost h-8 px-3 text-xs" onClick={onRetry}>
-          <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
-          New response
-        </button>
+        <div className="flex gap-1">
+          <button
+            type="button"
+            className="btn-ghost h-8 px-3 text-xs"
+            aria-label={speaking ? "Stop reading aloud" : "Read this response aloud"}
+            onClick={() =>
+              speaking
+                ? stop()
+                : void playText(
+                    SPOKEN_ID,
+                    `${response.supportMessage} ${response.groundingPrompt}`,
+                  )
+            }
+          >
+            {speaking ? (
+              <>
+                <Square className="h-3.5 w-3.5" aria-hidden="true" />
+                Stop
+              </>
+            ) : (
+              <>
+                <Volume2 className="h-3.5 w-3.5" aria-hidden="true" />
+                Read aloud
+              </>
+            )}
+          </button>
+          <button type="button" className="btn-ghost h-8 px-3 text-xs" onClick={onRetry}>
+            <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
+            New response
+          </button>
+        </div>
       </div>
 
       <p className="text-[15px] leading-relaxed">{response.supportMessage}</p>

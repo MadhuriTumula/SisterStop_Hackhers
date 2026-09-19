@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { resolveAudio, speak, stopSpeech, type AudioSource } from "../lib/audio";
+import {
+  resolveAudio,
+  speak,
+  stopSpeech,
+  type AudioRequest,
+  type AudioSource,
+} from "../lib/audio";
 import type { AudioType } from "../types/api";
 
 export type AudioStatus = "idle" | "loading" | "playing" | "error";
 
 export const useAudioTool = () => {
-  const [activeId, setActiveId] = useState<AudioType | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [status, setStatus] = useState<AudioStatus>("idle");
   const [source, setSource] = useState<AudioSource | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -28,13 +34,13 @@ export const useAudioTool = () => {
   }, [teardown]);
 
   /** Always triggered by an explicit tap — nothing autoplays. */
-  const play = useCallback(
-    async (audioType: AudioType) => {
+  const playRequest = useCallback(
+    async (id: string, request: AudioRequest) => {
       teardown();
-      setActiveId(audioType);
+      setActiveId(id);
       setStatus("loading");
 
-      const playback = await resolveAudio(audioType);
+      const playback = await resolveAudio(request);
       setSource(playback.source);
       cleanupRef.current = playback.cleanup ?? null;
 
@@ -47,7 +53,7 @@ export const useAudioTool = () => {
         };
         audio.onerror = () => {
           // Last resort: read the same reviewed script aloud in the browser.
-          const spoke = speak(audioType, {
+          const spoke = speak(request, {
             onEnd: () => {
               setStatus("idle");
               setActiveId(null);
@@ -67,7 +73,7 @@ export const useAudioTool = () => {
         }
       }
 
-      const spoke = speak(audioType, {
+      const spoke = speak(request, {
         onEnd: () => {
           setStatus("idle");
           setActiveId(null);
@@ -80,5 +86,16 @@ export const useAudioTool = () => {
     [teardown],
   );
 
-  return { activeId, status, source, play, stop };
+  const play = useCallback(
+    (audioType: AudioType) => playRequest(audioType, { audioType }),
+    [playRequest],
+  );
+
+  /** Speaks a line written elsewhere; the server re-checks it before voicing. */
+  const playText = useCallback(
+    (id: string, text: string) => playRequest(id, { text }),
+    [playRequest],
+  );
+
+  return { activeId, status, source, play, playText, stop };
 };

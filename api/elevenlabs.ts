@@ -1,9 +1,17 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { checkSpokenLine } from "../src/lib/audioGuard";
 
 /**
- * Comfort audio. Three fixed, reviewed scripts only — the endpoint never
- * speaks arbitrary user text, and never impersonates police, dispatch, MARTA,
- * an employer, or a real person.
+ * Comfort audio. Two ways in:
+ *
+ * 1. `audioType` — one of the three fixed, reviewed scripts below.
+ * 2. `text` — a line written elsewhere (today: Gemini, via
+ *    /api/companion-script). Every such line is re-checked here by
+ *    checkSpokenLine before it is spoken, so the guarantee holds no matter who
+ *    called this endpoint or what they sent.
+ *
+ * Either way the audio never impersonates police, dispatch, MARTA, an
+ * employer, or a real person.
  */
 
 export const AUDIO_SCRIPTS: Record<string, string> = {
@@ -26,15 +34,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const audioType = (req.body as { audioType?: string })?.audioType ?? "";
-  const text = AUDIO_SCRIPTS[audioType];
+  const body = (req.body as { audioType?: string; text?: string }) ?? {};
+  const audioType = body.audioType ?? "";
+
+  // A caller-supplied line is only spoken if it passes the guardrail.
+  let text: string | undefined;
+  if (body.text) {
+    const verdict = checkSpokenLine(body.text);
+    if (!verdict.ok) {
+      console.warn(`elevenlabs refused a line (${verdict.reason})`);
+      return res.status(422).json({ error: "Line rejected", reason: verdict.reason });
+    }
+    text = body.text.trim();
+  } else {
+    text = AUDIO_SCRIPTS[audioType];
+  }
 
   if (!text) {
-    return res.status(400).json({ error: "Invalid audio type" });
+    return res.status(400).json({ error: "Provide a valid audioType or text" });
   }
 
   const fallback = {
     source: "fallback" as const,
+    // Generated lines have no pre-rendered file; the client speaks the text.
     audioUrl: FALLBACK_FILES[audioType],
     text,
   };

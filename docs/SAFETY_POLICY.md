@@ -19,6 +19,12 @@ When a user mentions immediate danger, violence, stalking, assault, medical emer
 - Users can leave, block, or report a match at any time.
 
 ## Audio rules
+- Any line the app speaks — hand-written or model-generated — passes
+  `checkSpokenLine` (`src/lib/audioGuard.ts`) on the server immediately before
+  text-to-speech. A rejected line is discarded, never rewritten, and a reviewed
+  script is spoken instead.
+- The prompt asks for the boundary; the guardrail enforces it. Never rely on
+  the prompt alone.
 - Do not simulate police, emergency dispatch, or official MARTA communications.
 - Do not clone an identifiable person's voice.
 - Label all generated audio as a comfort tool or guided support.

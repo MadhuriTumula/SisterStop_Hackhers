@@ -26,11 +26,17 @@ Evidence for submission:
 - Devpost explanation of structured JSON response
 
 ## ElevenLabs
-Feature: Comfort Audio Suite
+Feature: Comfort Audio Suite — the voice for everything Gemini writes
 Audio modes:
-- Friendly check-in
-- Cover-call style comfort audio
-- Guided grounding exercise
+- Live companion call: speaks a line Gemini wrote for tonight's trip
+- Read aloud: speaks the Calm Coach reply
+- Friendly check-in (reviewed script)
+- Cover-call style comfort audio (reviewed script)
+- Guided grounding exercise (reviewed script)
+
+The Gemini -> guardrail -> ElevenLabs chain is the strongest single demo beat:
+one trip context produces personalised words and a voice, with a server-side
+check that refuses impersonation.
 
 Evidence:
 - Screenshot with audio tool

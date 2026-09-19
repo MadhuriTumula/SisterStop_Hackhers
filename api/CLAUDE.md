@@ -31,9 +31,18 @@ runs *before* the call (short-circuits to the urgent response) and *after* it
 (escalates the model's reply). Do not let a prompt own that decision, and do not
 send more rider context than the feature needs.
 
-**ElevenLabs** (`elevenlabs.ts`) — only the three reviewed scripts in
-`AUDIO_SCRIPTS`; never synthesize arbitrary user text. Falls back to a local MP3
-path. Never frame audio as police, dispatch, or official transit communication.
+**ElevenLabs** (`elevenlabs.ts`) — speaks either a reviewed script from
+`AUDIO_SCRIPTS` or a `text` line that passes `checkSpokenLine`. **Never bypass
+that check**, and never add a path that speaks client text without it: the
+endpoint is the last point where the app can refuse. Rejected lines return 422.
+Falls back to a local MP3, then to device speech. Never frame audio as police,
+dispatch, or official transit communication.
+
+**companion-script** (`companion-script.ts`) — Gemini writes the spoken line for
+a live call from trip context. It writes as a friend, never an official. A
+rejected line is replaced by the reviewed `comfort_call` script rather than
+repaired — a model that just produced an unsafe line is not the thing to ask
+for a safe one.
 
 **Tiger Data** (`community-pulse.ts`) — anonymous events only, always bucketed
 by `time_bucket()`. No query may return anything that identifies a rider, a

@@ -1,6 +1,16 @@
-import { AudioLines, Loader2, Play, Square, TriangleAlert } from "lucide-react";
+import { useState } from "react";
+import {
+  AudioLines,
+  Loader2,
+  PhoneCall,
+  Play,
+  Sparkles,
+  Square,
+  TriangleAlert,
+} from "lucide-react";
 import { AUDIO_DISCLAIMER, AUDIO_TOOLS } from "../lib/constants";
 import { useAudioTool } from "../hooks/useAudioTool";
+import { useTripSession } from "../hooks/useTripSession";
 import { cn } from "../lib/utils";
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -9,12 +19,53 @@ const SOURCE_LABEL: Record<string, string> = {
   speech: "Device voice fallback",
 };
 
+const LIVE_CALL_ID = "live_companion_call";
+
 /**
  * Comfort audio. Nothing plays without an explicit tap, and every mode is
  * labelled as a comfort tool — never as police, dispatch, or transit staff.
  */
 const AudioToolCard = () => {
-  const { activeId, status, source, play, stop } = useAudioTool();
+  const { activeId, status, source, play, playText, stop } = useAudioTool();
+  const { trip } = useTripSession();
+  const [transcript, setTranscript] = useState<string | null>(null);
+  const [writing, setWriting] = useState(false);
+
+  const liveActive = activeId === LIVE_CALL_ID;
+
+  /** Gemini writes the line for this trip; ElevenLabs then speaks it. */
+  const startLiveCall = async () => {
+    if (liveActive) {
+      stop();
+      return;
+    }
+
+    setWriting(true);
+    setTranscript(null);
+
+    try {
+      const response = await fetch("/api/companion-script", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          route: trip.route,
+          stationZone: trip.originStation,
+          departureWindow: trip.departureWindow,
+          feeling: trip.comfortPreference,
+        }),
+      });
+
+      const payload = (await response.json()) as { text?: string };
+      if (!payload.text) return;
+
+      setTranscript(payload.text);
+      await playText(LIVE_CALL_ID, payload.text);
+    } catch {
+      setTranscript(null);
+    } finally {
+      setWriting(false);
+    }
+  };
 
   return (
     <section className="card p-5" aria-label="Comfort audio">
@@ -32,6 +83,59 @@ const AudioToolCard = () => {
           <span className="chip bg-calm/10 text-calm ring-calm/30">{SOURCE_LABEL[source]}</span>
         ) : null}
       </div>
+
+      <article className="mb-4 rounded-xl border border-brand/40 bg-brand/5 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h3 className="flex items-center gap-2 text-sm font-semibold">
+              <PhoneCall className="h-4 w-4 text-brand-soft" aria-hidden="true" />
+              Live companion call
+            </h3>
+            <p className="mt-1 text-xs leading-relaxed text-muted">
+              Gemini writes the words for tonight&apos;s trip — your route, station
+              area, and departure window — and ElevenLabs speaks them back to you.
+            </p>
+          </div>
+          <span className="chip bg-elevated text-muted ring-hairline">
+            <Sparkles className="h-3 w-3" aria-hidden="true" />
+            Written live
+          </span>
+        </div>
+
+        {transcript ? (
+          <blockquote className="mt-3 rounded-lg bg-ink/50 p-3 text-sm italic leading-relaxed">
+            &ldquo;{transcript}&rdquo;
+          </blockquote>
+        ) : null}
+
+        <button
+          type="button"
+          className="btn-primary mt-3 w-full sm:w-auto"
+          onClick={() => void startLiveCall()}
+          disabled={writing || (liveActive && status === "loading")}
+        >
+          {writing ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              Writing your call…
+            </>
+          ) : liveActive && status === "playing" ? (
+            <>
+              <Square className="h-4 w-4" aria-hidden="true" />
+              End call
+            </>
+          ) : (
+            <>
+              <PhoneCall className="h-4 w-4" aria-hidden="true" />
+              Start a companion call
+            </>
+          )}
+        </button>
+      </article>
+
+      <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">
+        Or play a ready-made clip
+      </h3>
 
       <ul className="grid gap-3 sm:grid-cols-3">
         {AUDIO_TOOLS.map((tool) => {

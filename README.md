@@ -151,7 +151,10 @@ To point the app at a **different** Auth0 tenant:
 **Without it:** a clearly labelled local demo session stands in, so `/profile`
 and the save-a-match flow are still demonstrable.
 
-### 3.2 Google Gemini — Calm Coach
+### 3.2 Google Gemini — Calm Coach and call scripts
+
+**Already configured in this repo** — `.env.local` holds a working key, and
+`/calm` returns live replies. To use your own:
 
 1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey) and
    sign in with a Google account.
@@ -179,6 +182,21 @@ curl -s -X POST localhost:5174/api/gemini \
 **Without it:** built-in bounded support copy renders in the same layout.
 
 ### 3.3 ElevenLabs — comfort audio
+
+**Already configured in this repo** — `.env.local` holds a working key and the
+voice `EXAVITQu4vr4xnSDxMaL` (Sarah, a soft female voice). Press play on `/calm`
+and you will hear it.
+
+Two things that cost time if you swap in your own account:
+
+- **Free plans cannot use library voices via the API.** Rachel
+  (`21m00Tcm4TlvDq8ikWAM`) returns `402 paid_plan_required`; Sarah works. If
+  audio silently falls back to the device voice, check for a 402 first.
+- A key can be valid but scoped. This one has text-to-speech but not
+  `voices_read`, so listing voices from the API returns 401 while speaking works
+  fine.
+
+To use your own account:
 
 1. Create an account at [elevenlabs.io](https://elevenlabs.io).
 2. **API key:** profile menu (bottom left) → **API Keys** → create → copy.
@@ -244,7 +262,8 @@ query.
 - **Calm Mode** — a breathing orb (inhale 4 / hold 4 / exhale 6), a 5-4-3-2-1
   grounding exercise, and a Gemini-powered Calm Coach returning one support
   message, one grounding step, and one suggested in-app action.
-- **Comfort audio** — three clearly labelled ElevenLabs clips: a friendly
+- **Comfort audio** — a live companion call whose words Gemini writes for your
+  trip and ElevenLabs speaks, plus three hand-written clips: a friendly
   check-in, a call-style comfort clip, and a guided grounding exercise.
 - **Safety Hub** — 911, MARTA Police call and text, MARTA's own reporting app,
   988, and a trip check-in for a trusted contact.
@@ -252,6 +271,60 @@ query.
   Data, so partners can see *when* riders need support without seeing *who*.
 - **Dark and light themes** — system-following by default, with a persistent
   override in the header.
+
+### What Gemini and ElevenLabs actually do
+
+They are not two separate demos. Gemini writes; ElevenLabs speaks.
+
+```
+Your trip (route, station area, departure window, how you feel)
+        │
+        ▼
+  Gemini  ──────────────┬──────────────────────────────┐
+        │               │                              │
+  Calm Coach card   Companion call line          (structured JSON)
+  — text you read   — words for this trip
+        │               │
+        ▼               ▼
+   "Read aloud"    Guardrail check  ──► rejected ──► reviewed script
+        │               │
+        └───────┬───────┘
+                ▼
+          ElevenLabs — speaks it back to you
+                │
+       no key / offline ──► pre-rendered MP3 ──► device voice
+```
+
+**Gemini** does two jobs:
+
+1. **Calm Coach** (`/calm`) — you say how the wait is going; it returns
+   schema-constrained JSON the UI renders as a support message, one grounding
+   step, one suggested action, and a safety notice.
+2. **Companion call script** — it writes the actual words for a comfort call,
+   using tonight's route, station area, and departure window, so the call sounds
+   like a friend who knows where you are.
+
+**ElevenLabs** gives all of that a voice:
+
+- **Live companion call** — speaks the line Gemini just wrote, with the
+  transcript shown on screen.
+- **Read aloud** — speaks the Calm Coach reply, for when reading is too much.
+- **Three ready-made clips** — a friendly check-in, a comfort call, and a guided
+  grounding exercise, hand-written and always available.
+
+**The guardrail between them is the point.** A model is writing words that get
+spoken aloud to someone who may be frightened, so the boundary cannot live in
+the prompt — a prompt is a request, not a constraint. Every generated line is
+re-checked on the server by `src/lib/audioGuard.ts` immediately before
+text-to-speech, and a failing line is never repaired, only discarded in favour
+of a reviewed script:
+
+| Line | Result |
+| --- | --- |
+| "This is Officer Daniels with MARTA Police…" | rejected — impersonates emergency services |
+| "I already called 911, help is on the way." | rejected — impersonates emergency services |
+| "I'm here with you, you are safe now." | rejected — guarantees safety |
+| "Hey, I'm here. I'll stay on the line until you're inside." | spoken |
 
 **Built with:** React · TypeScript · Vite · Tailwind CSS v4 · Auth0 ·
 Google Gemini · ElevenLabs · Tiger Data / PostgreSQL · Recharts · Vercel
@@ -282,6 +355,8 @@ the call-911 state on its own, with or without an API key.
 | Gemini returns `"source":"fallback"` | Key is missing, misspelled, or the dev server was not restarted. Check for a stray `VITE_` prefix. |
 | `/pulse` shows "Demo data" | `DATABASE_URL` unset or unreachable, or `sql/001` + `002` not run yet. |
 | Build fails after editing styles | Tailwind v4 cannot `@apply` a custom class — comma-group selectors in `src/index.css` instead. |
+| Companion call speaks a generic line | Gemini returned something the guardrail rejected, so the reviewed script was spoken instead. The reason is logged server-side. |
+| ElevenLabs falls back to the device voice | Check the server log for `402 paid_plan_required` (library voice on a free plan) or a missing `ELEVENLABS_VOICE_ID`. |
 | A color ignores the theme switch | It is a hardcoded hex. Use a token (`bg-surface`, `text-muted`, …) defined in `src/index.css`. |
 
 ---

@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./scripts/dev-api-plugin.ts","./api/buddy-match.ts","./api/community-pulse.ts","./api/elevenlabs.ts","./api/gemini.ts","./api/health.ts"],"version":"5.9.3"}
+{"root":["./vite.config.ts","./scripts/dev-api-plugin.ts","./api/buddy-match.ts","./api/community-pulse.ts","./api/companion-script.ts","./api/elevenlabs.ts","./api/gemini.ts","./api/health.ts"],"version":"5.9.3"}

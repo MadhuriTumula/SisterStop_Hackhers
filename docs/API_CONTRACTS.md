@@ -38,10 +38,19 @@ Rules:
 ## POST /api/elevenlabs
 Comfort audio. Two response modes.
 
-Request:
+Request — either a reviewed script:
 ```json
 { "audioType": "friendly_checkin | comfort_call | grounding_guide" }
 ```
+
+…or a line written elsewhere (today: `/api/companion-script`):
+```json
+{ "text": "Hey, I'm here. I'll stay on the line until you're inside." }
+```
+
+`text` is re-validated by `checkSpokenLine` here regardless of who sent it, so
+the guarantee does not depend on the caller. A failing line returns **422** with
+a `reason` and is never spoken.
 
 Response A (key configured): `Content-Type: audio/mpeg` binary body.
 Response B (no key / error):
@@ -51,6 +60,30 @@ Response B (no key / error):
 
 The client plays the blob, then the local MP3, then browser speech synthesis —
 so a voice is always available during judging.
+
+## POST /api/companion-script
+Gemini writes the spoken line for a live companion call.
+
+Request:
+```json
+{
+  "route": "Red Line",
+  "stationZone": "North Avenue Station",
+  "departureWindow": "10:15–10:30 PM",
+  "feeling": "quiet_company"
+}
+```
+
+Response:
+```json
+{ "text": "Hey, I see you just made it over to North Avenue Station…",
+  "source": "gemini | reviewed-script", "model": "gemini-3.8-flash",
+  "rejected": "impersonates emergency services" }
+```
+
+The model writes as a friend, never as an official. `checkSpokenLine` validates
+the result; a rejected line is replaced by the reviewed `comfort_call` script
+and the reason is returned for logging (never shown to the rider).
 
 ## POST /api/buddy-match
 Server-side mirror of the matching logic, used to prove matching is not purely
