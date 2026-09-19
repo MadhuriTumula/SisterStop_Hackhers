@@ -1,4 +1,4 @@
-import { Sparkles, AudioLines, Database, KeyRound } from "lucide-react";
+import { Sparkles, AudioLines, KeyRound } from "lucide-react";
 import { useIntegrationStatus } from "../hooks/useIntegrationStatus";
 import { useSession } from "../hooks/useSession";
 import { cn } from "../lib/utils";
@@ -11,11 +11,15 @@ const IntegrationStatus = ({ className }: { className?: string }) => {
   const { integrations, checked } = useIntegrationStatus();
   const { auth0Configured } = useSession();
 
+  // Tiger Data is hidden here until the database is actually connected — a
+  // permanent "demo" chip reads as an unfinished integration rather than an
+  // honest one. Community Pulse still labels its own data source on /pulse.
+  // To restore: add { label: "Tiger Data", live: integrations.tigerData,
+  // icon: Database } and re-import Database from lucide-react.
   const items = [
     { label: "Auth0", live: auth0Configured, icon: KeyRound },
     { label: "Gemini", live: integrations.gemini, icon: Sparkles },
     { label: "ElevenLabs", live: integrations.elevenlabs, icon: AudioLines },
-    { label: "Tiger Data", live: integrations.tigerData, icon: Database },
   ];
 
   return (
