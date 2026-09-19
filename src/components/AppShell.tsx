@@ -4,6 +4,7 @@ import { ShieldAlert } from "lucide-react";
 import BottomNav from "./BottomNav";
 import UserMenu from "./UserMenu";
 import IntegrationStatus from "./IntegrationStatus";
+import ThemeToggle from "./ThemeToggle";
 import { APP_NAME } from "../lib/constants";
 import { PROTOTYPE_DISCLAIMER } from "../lib/safety";
 import { useSession, useSyncPreviewOnAuth } from "../hooks/useSession";
@@ -44,6 +45,7 @@ const AppShell = ({ children }: { children: ReactNode }) => {
                 <span className="sm:hidden">Help</span>
               </Link>
             ) : null}
+            <ThemeToggle className="hidden sm:flex" />
             <UserMenu />
           </div>
         </div>
@@ -64,7 +66,12 @@ const AppShell = ({ children }: { children: ReactNode }) => {
 
       <footer className="mx-auto w-full max-w-5xl px-4 pb-24">
         <IntegrationStatus className="mb-3 xl:hidden" />
-        <p className="text-xs leading-relaxed text-muted">{PROTOTYPE_DISCLAIMER}</p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="max-w-2xl text-xs leading-relaxed text-muted">
+            {PROTOTYPE_DISCLAIMER}
+          </p>
+          <ThemeToggle className="sm:hidden" />
+        </div>
       </footer>
 
       <BottomNav />

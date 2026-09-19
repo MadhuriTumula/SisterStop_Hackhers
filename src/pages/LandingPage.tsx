@@ -51,7 +51,7 @@ const LandingPage = () => {
 
   return (
     <div className="space-y-12">
-      <section className="relative overflow-hidden rounded-[var(--radius-card)] border border-hairline/70 bg-surface/60 px-6 py-12 sm:px-10 sm:py-16">
+      <section className="relative overflow-hidden rounded-card border border-hairline/70 bg-surface/60 px-6 py-12 sm:px-10 sm:py-16">
         <div className="animate-fade-up relative max-w-2xl">
           <span className="chip bg-brand/10 text-brand-soft ring-brand/30">
             <Sparkles className="h-3 w-3" aria-hidden="true" />

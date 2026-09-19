@@ -31,10 +31,19 @@ src/hooks/  useTripSession (trip + match state), useSession (Auth0 or labelled
             local fallback), useBuddyMatching, useCalmCoach, useAudioTool
 src/lib/    matching.ts (scoring), safety.ts (escalation rule), gemini.ts (Zod
             contract), audio.ts (playback ladder), constants.ts (all UI copy)
+src/index.css  Theme tokens for both modes + the shared component classes
 src/data/   Seeded riders, routes, stations, contacts, pulse series
 sql/        Tiger Data hypertable, seed, continuous aggregate
 docs/       Product, safety, sponsor, demo, and submission context
 ```
+
+**Theming.** `--mm-*` custom properties are declared per theme in
+`src/index.css` and re-exported through `@theme inline` so Tailwind utilities
+emit `var(--mm-*)` and repaint on a theme swap. `useTheme` owns the preference
+(system by default, persisted once set); the inline script in `index.html`
+applies it before first paint. **Never hardcode a hex in a component** — it will
+not follow the theme. Light is a selected palette with re-stepped accents, not
+an inversion.
 
 **Dev API bridge.** `vite dev` does not run Vercel functions, so
 `scripts/dev-api-plugin.ts` mounts the same handlers on the dev server and
@@ -75,6 +84,15 @@ integration the code does not have.
   use a custom `content` renderer instead.
 - **Tailwind v4:** `@apply` cannot reference a custom class. Comma-group the
   selectors in `src/index.css` instead of `@apply btn`.
+- **Tailwind v4 `@theme inline`** is required when a token's value is another
+  custom property; a plain `@theme` would freeze the value at build time. Note
+  that `inline` tokens are not emitted at `:root`, so arbitrary values like
+  `rounded-[var(--radius-card)]` need a non-inline `@theme` block (or the
+  generated `rounded-card` utility).
+- **Recharts clones label elements with the series' own props**, so a `fill`
+  prop on a custom `LabelList` content component gets overwritten by the bar
+  color. Pass it under a different name (`labelFill`) — values must wear text
+  tokens, never the series color.
 - **Headless Chrome clamps window width** to roughly 500px, so a `--window-size=390`
   screenshot looks clipped when the layout is fine. Verify mobile at 500px
   (still below the `sm` breakpoint).
@@ -87,3 +105,6 @@ integration the code does not have.
   --virtual-time-budget=6000 --screenshot=docs/screenshots/01-landing.png \
   http://localhost:5173/
 ```
+
+Headless Chrome reports a light OS preference, so that captures light mode. Add
+`--blink-settings=preferredColorScheme=0` for dark.

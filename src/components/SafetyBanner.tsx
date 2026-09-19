@@ -16,7 +16,7 @@ const SafetyBanner = ({
 }: SafetyBannerProps) => (
   <aside
     className={cn(
-      "flex flex-col gap-3 rounded-[var(--radius-card)] border px-4 py-3 sm:flex-row sm:items-center sm:justify-between",
+      "flex flex-col gap-3 rounded-card border px-4 py-3 sm:flex-row sm:items-center sm:justify-between",
       tone === "urgent"
         ? "border-alert/60 bg-alert/10"
         : "border-safety/30 bg-safety/5",

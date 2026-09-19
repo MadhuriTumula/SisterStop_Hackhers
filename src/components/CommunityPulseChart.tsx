@@ -13,19 +13,35 @@ import {
   YAxis,
 } from "recharts";
 import { Table2 } from "lucide-react";
+import { useTheme } from "../hooks/useTheme";
 import type { PulsePoint, SupportTypeSlice } from "../types/api";
 import { SUPPORT_TYPE_LABEL } from "../lib/formatters";
 
 /**
  * Aggregate-only visuals. Requests and mood are never plotted on one pair of
  * axes — mood is a stat tile on the page, so this chart keeps a single scale.
- * Palette: validated categorical steps for a dark surface (#11172A).
+ *
+ * Each mode's palette is selected and validated against that mode's surface,
+ * not flipped from the other one. Two light slots sit below 3:1 against white,
+ * which is allowed here because every bar carries a direct value label and the
+ * time series has a table view.
  */
-const SURFACE = "#11172A";
-const GRID = "#24304F";
-const AXIS_TEXT = "#94A3B8";
-const SERIES = "#3987e5";
-const CATEGORICAL = ["#3987e5", "#d95926", "#199e70", "#c98500"];
+const PALETTES = {
+  dark: {
+    surface: "#11172A",
+    grid: "#24304F",
+    axisText: "#94A3B8",
+    series: "#3987e5",
+    categorical: ["#3987e5", "#d95926", "#199e70", "#c98500"],
+  },
+  light: {
+    surface: "#FFFFFF",
+    grid: "#D9DFEE",
+    axisText: "#475569",
+    series: "#2a78d6",
+    categorical: ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"],
+  },
+} as const;
 
 interface CommunityPulseChartProps {
   data: PulsePoint[];
@@ -39,6 +55,7 @@ const BarValueLabel = (props: {
   width?: number | string;
   height?: number | string;
   value?: number | string;
+  labelFill?: string;
 }) => {
   const x = Number(props.x ?? 0);
   const y = Number(props.y ?? 0);
@@ -50,7 +67,7 @@ const BarValueLabel = (props: {
       x={x + width + 8}
       y={y + height / 2}
       dy={4}
-      fill={AXIS_TEXT}
+      fill={props.labelFill}
       fontSize={11}
       textAnchor="start"
     >
@@ -67,9 +84,11 @@ interface TooltipEntry {
 const RequestsTooltip = ({
   active,
   payload,
+  seriesColor,
 }: {
   active?: boolean;
   payload?: TooltipEntry[];
+  seriesColor?: string;
 }) => {
   if (!active || !payload?.length) return null;
   const point = payload[0]?.payload;
@@ -80,7 +99,7 @@ const RequestsTooltip = ({
       <p className="mt-0.5 text-muted">
         <span
           className="mr-1.5 inline-block h-2 w-2 rounded-full align-middle"
-          style={{ background: SERIES }}
+          style={{ background: seriesColor }}
           aria-hidden="true"
         />
         {point?.requests} support requests
@@ -91,6 +110,8 @@ const RequestsTooltip = ({
 
 const CommunityPulseChart = ({ data, bySupportType }: CommunityPulseChartProps) => {
   const [showTable, setShowTable] = useState(false);
+  const { resolved } = useTheme();
+  const palette = PALETTES[resolved];
 
   // Multiple routes can land in the same 30-minute bucket; the chart shows
   // total demand per window, never a single rider's trip.
@@ -158,38 +179,38 @@ const CommunityPulseChart = ({ data, bySupportType }: CommunityPulseChartProps) 
               <AreaChart data={byWindow} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
                 <defs>
                   <linearGradient id="requestsFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={SERIES} stopOpacity={0.35} />
-                    <stop offset="100%" stopColor={SERIES} stopOpacity={0.02} />
+                    <stop offset="0%" stopColor={palette.series} stopOpacity={0.35} />
+                    <stop offset="100%" stopColor={palette.series} stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid stroke={GRID} strokeDasharray="3 3" vertical={false} />
+                <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" vertical={false} />
                 <XAxis
                   dataKey="time"
-                  tick={{ fill: AXIS_TEXT, fontSize: 11 }}
+                  tick={{ fill: palette.axisText, fontSize: 11 }}
                   tickLine={false}
-                  axisLine={{ stroke: GRID }}
+                  axisLine={{ stroke: palette.grid }}
                   interval="preserveStartEnd"
                   minTickGap={16}
                 />
                 <YAxis
-                  tick={{ fill: AXIS_TEXT, fontSize: 11 }}
+                  tick={{ fill: palette.axisText, fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
                   width={44}
                   allowDecimals={false}
                 />
                 <Tooltip
-                  content={<RequestsTooltip />}
-                  cursor={{ stroke: AXIS_TEXT, strokeDasharray: "4 4" }}
+                  content={<RequestsTooltip seriesColor={palette.series} />}
+                  cursor={{ stroke: palette.axisText, strokeDasharray: "4 4" }}
                 />
                 <Area
                   type="monotone"
                   dataKey="requests"
-                  stroke={SERIES}
+                  stroke={palette.series}
                   strokeWidth={2}
                   fill="url(#requestsFill)"
-                  dot={{ r: 3, fill: SERIES, stroke: SURFACE, strokeWidth: 2 }}
-                  activeDot={{ r: 5, stroke: SURFACE, strokeWidth: 2 }}
+                  dot={{ r: 3, fill: palette.series, stroke: palette.surface, strokeWidth: 2 }}
+                  activeDot={{ r: 5, stroke: palette.surface, strokeWidth: 2 }}
                   isAnimationActive={false}
                 />
               </AreaChart>
@@ -212,12 +233,12 @@ const CommunityPulseChart = ({ data, bySupportType }: CommunityPulseChartProps) 
               margin={{ top: 4, right: 36, bottom: 0, left: 8 }}
               barCategoryGap={10}
             >
-              <CartesianGrid stroke={GRID} strokeDasharray="3 3" horizontal={false} />
+              <CartesianGrid stroke={palette.grid} strokeDasharray="3 3" horizontal={false} />
               <XAxis type="number" hide allowDecimals={false} />
               <YAxis
                 type="category"
                 dataKey="label"
-                tick={{ fill: AXIS_TEXT, fontSize: 11 }}
+                tick={{ fill: palette.axisText, fontSize: 11 }}
                 tickLine={false}
                 axisLine={false}
                 width={104}
@@ -226,12 +247,12 @@ const CommunityPulseChart = ({ data, bySupportType }: CommunityPulseChartProps) 
                 {splits.map((slice, index) => (
                   <Cell
                     key={slice.supportType}
-                    fill={CATEGORICAL[index % CATEGORICAL.length]}
-                    stroke={SURFACE}
+                    fill={palette.categorical[index % palette.categorical.length]}
+                    stroke={palette.surface}
                     strokeWidth={2}
                   />
                 ))}
-                <LabelList dataKey="count" content={<BarValueLabel />} />
+                <LabelList dataKey="count" content={<BarValueLabel labelFill={palette.axisText} />} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>

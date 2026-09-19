@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import AppShell from "./components/AppShell";
+import { ThemeProvider, useTheme } from "./hooks/useTheme";
 import { TripSessionProvider } from "./hooks/useTripSession";
 import LandingPage from "./pages/LandingPage";
 import PlanTripPage from "./pages/PlanTripPage";
@@ -15,8 +16,27 @@ import NotFoundPage from "./pages/NotFoundPage";
 // Recharts is only needed on the dashboard; keep it out of the first paint.
 const CommunityPulsePage = lazy(() => import("./pages/CommunityPulsePage"));
 
+const ThemedToaster = () => {
+  const { resolved } = useTheme();
+
+  return (
+    <Toaster
+      theme={resolved}
+      position="top-center"
+      toastOptions={{
+        style: {
+          background: "var(--mm-elevated)",
+          border: "1px solid var(--mm-hairline)",
+          color: "var(--mm-paper)",
+        },
+      }}
+    />
+  );
+};
+
 const App = () => (
   <BrowserRouter>
+    <ThemeProvider>
     <TripSessionProvider>
       <AppShell>
         <Routes>
@@ -40,18 +60,9 @@ const App = () => (
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AppShell>
-      <Toaster
-        theme="dark"
-        position="top-center"
-        toastOptions={{
-          style: {
-            background: "#19213A",
-            border: "1px solid #24304F",
-            color: "#F8FAFC",
-          },
-        }}
-      />
+      <ThemedToaster />
     </TripSessionProvider>
+    </ThemeProvider>
   </BrowserRouter>
 );
 

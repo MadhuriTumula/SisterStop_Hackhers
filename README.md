@@ -42,6 +42,14 @@ fresh clone. Add keys later when you want the real services (section 3).
 /pulse    → Community Pulse dashboard
 ```
 
+### Dark and light
+
+The app ships both. It follows your OS setting by default — dark is the natural
+default for a 10 PM platform — and the toggle in the header (sun / system /
+moon) overrides that and persists. The light palette is selected, not inverted:
+accents are re-stepped so they still clear contrast on white, and the charts
+carry a separately validated palette per mode.
+
 ### Other commands
 
 ```bash
@@ -231,6 +239,8 @@ query.
   988, and a trip check-in for a trusted contact.
 - **Community Pulse** — anonymous, aggregate, time-bucketed check-ins in Tiger
   Data, so partners can see *when* riders need support without seeing *who*.
+- **Dark and light themes** — system-following by default, with a persistent
+  override in the header.
 
 **Built with:** React · TypeScript · Vite · Tailwind CSS v4 · Auth0 ·
 Google Gemini · ElevenLabs · Tiger Data / PostgreSQL · Recharts · Vercel
@@ -261,6 +271,7 @@ the call-911 state on its own, with or without an API key.
 | Gemini returns `"source":"fallback"` | Key is missing, misspelled, or the dev server was not restarted. Check for a stray `VITE_` prefix. |
 | `/pulse` shows "Demo data" | `DATABASE_URL` unset or unreachable, or `sql/001` + `002` not run yet. |
 | Build fails after editing styles | Tailwind v4 cannot `@apply` a custom class — comma-group selectors in `src/index.css` instead. |
+| A color ignores the theme switch | It is a hardcoded hex. Use a token (`bg-surface`, `text-muted`, …) defined in `src/index.css`. |
 
 ---
 

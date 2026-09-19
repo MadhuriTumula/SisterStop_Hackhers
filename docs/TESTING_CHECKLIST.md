@@ -14,6 +14,9 @@
 - [ ] ElevenLabs audio plays or fallback audio plays.
 - [ ] Safety Hub is accessible from every primary screen.
 - [ ] Community Pulse chart renders with fallback data.
+- [ ] Dark theme renders correctly on every screen.
+- [ ] Light theme renders correctly on every screen.
+- [ ] Theme choice survives a reload; "System" follows the OS setting.
 - [ ] Mobile layout works at 390px width.
 - [ ] Desktop layout works at 1440px width.
 

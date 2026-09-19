@@ -38,7 +38,7 @@ const TrustedContactSheet = ({ open, trip, onClose, onSend }: TrustedContactShee
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
-        className="card-elevated w-full max-w-lg rounded-b-none p-6 sm:rounded-[var(--radius-card)]"
+        className="card-elevated w-full max-w-lg rounded-b-none p-6 sm:rounded-card"
       >
         <div className="mb-4 flex items-start justify-between">
           <h2 id="trusted-contact-title" className="text-lg font-semibold">
@@ -75,7 +75,7 @@ const TrustedContactSheet = ({ open, trip, onClose, onSend }: TrustedContactShee
                   value={contact.id}
                   checked={selectedId === contact.id}
                   onChange={() => setSelectedId(contact.id)}
-                  className="h-4 w-4 accent-[#8B5CF6]"
+                  className="h-4 w-4 accent-brand"
                 />
                 <span className="min-w-0 flex-1">
                   <span className="font-medium">{contact.alias}</span>

@@ -81,7 +81,7 @@ const BuddyFilters = ({
     <label className="flex items-center gap-2 text-sm text-muted">
       <input
         type="checkbox"
-        className="h-4 w-4 rounded border-hairline bg-ink accent-[#8B5CF6]"
+        className="h-4 w-4 rounded border-hairline bg-ink accent-brand"
         checked={verifiedOnly}
         onChange={(event) => onVerifiedOnlyChange(event.target.checked)}
       />

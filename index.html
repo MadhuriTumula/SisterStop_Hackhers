@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/martamate-mark.svg" />
@@ -12,6 +12,26 @@
     <title>MARTA MATE — Your calm, connected ride home</title>
   </head>
   <body>
+    <script>
+      // Runs before paint so the first frame is already the right theme.
+      (function () {
+        try {
+          var stored = localStorage.getItem("martamate.theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "light"
+                : "dark";
+          document.documentElement.dataset.theme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", theme === "light" ? "#f5f6fb" : "#080b18");
+        } catch (error) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

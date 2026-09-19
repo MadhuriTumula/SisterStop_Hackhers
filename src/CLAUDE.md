@@ -9,6 +9,12 @@ interfaces, no default-exported god components.
 - Tailwind utilities; shared component classes live in `src/index.css`
   (`.card`, `.btn-*`, `.chip`, `.field`). Tailwind v4 cannot `@apply` a custom
   class — comma-group selectors instead.
+- **Color always comes from a token** — `bg-surface`, `text-muted`, `bg-elevated`,
+  `text-brand-soft`, `bg-scrim`, `text-alert-ink`, and so on. A literal hex or a
+  `bg-slate-800` will not follow the light/dark switch. Both palettes live in
+  `src/index.css`; add a token there rather than a one-off color in a component.
+- Read the active theme with `useTheme()` when a non-CSS surface needs it
+  (canvas, charts, a third-party component's inline styles).
 - Framer Motion only for modals and the breathing orb. **Content reveals use
   `.animate-fade-up`**, never a JS animation that starts at `opacity: 0`.
 - Always ship loading, empty, and error states.

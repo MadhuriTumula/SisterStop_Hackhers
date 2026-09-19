@@ -26,7 +26,7 @@ const OfficialSafetyCard = ({ resource, onAction }: OfficialSafetyCardProps) => 
   const isExternal = resource.href?.startsWith("http");
 
   return (
-    <article className={cn("flex gap-3 rounded-[var(--radius-card)] border p-4", KIND_STYLES[resource.kind])}>
+    <article className={cn("flex gap-3 rounded-card border p-4", KIND_STYLES[resource.kind])}>
       <span
         className={cn(
           "mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full",
