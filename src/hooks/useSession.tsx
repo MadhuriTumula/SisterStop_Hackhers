@@ -36,6 +36,7 @@ export interface SessionValue {
   /** Judges browsing without an account. */
   isPreview: boolean;
   signIn: () => void;
+  signUp: () => void;
   signOut: () => void;
   startPreview: () => void;
   endPreview: () => void;
@@ -91,6 +92,12 @@ const Auth0SessionProvider = ({ children }: { children: ReactNode }) => {
         endPreview();
         void loginWithRedirect();
       },
+      signUp: () => {
+        endPreview();
+        void loginWithRedirect({
+          authorizationParams: { screen_hint: "signup" },
+        });
+      },
       signOut: () => {
         endPreview();
         void logout({ logoutParams: { returnTo: window.location.origin } });
@@ -119,6 +126,12 @@ const DemoSessionProvider = ({ children }: { children: ReactNode }) => {
       isPreview,
       user: alias ? { alias } : null,
       signIn: () => {
+        endPreview();
+        localStorage.setItem(DEMO_USER_KEY, "Demo Rider");
+        setAlias("Demo Rider");
+      },
+      // No account to create without Auth0 — reuse the local demo session.
+      signUp: () => {
         endPreview();
         localStorage.setItem(DEMO_USER_KEY, "Demo Rider");
         setAlias("Demo Rider");

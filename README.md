@@ -24,7 +24,7 @@ npm install            # ~15 seconds
 npm run dev
 ```
 
-Open **http://localhost:5173**.
+Open **http://localhost:5174**.
 
 That is the whole setup. **No API keys are required to run the app** — every
 integration falls back to seeded data, so the full journey works offline on a
@@ -61,7 +61,7 @@ npm run generate:audio  # pre-render the ElevenLabs MP3s (needs keys, see 3.3)
 
 > **Note:** `npm run dev` also runs the `api/` serverless handlers, via
 > `scripts/dev-api-plugin.ts`. You do **not** need `vercel dev`. Test an
-> endpoint directly with `curl localhost:5173/api/health`.
+> endpoint directly with `curl localhost:5174/api/health`.
 
 ---
 
@@ -102,7 +102,7 @@ Auth0 · demo   Gemini · live   ElevenLabs · demo   Tiger Data · demo
 Or from the terminal:
 
 ```bash
-curl localhost:5173/api/health
+curl localhost:5174/api/health
 # {"ok":true,"app":"MARTA MATE","integrations":{"gemini":true,...}}
 ```
 
@@ -116,12 +116,22 @@ All four are optional and independent. Add them in whatever order you like.
 
 ### 3.1 Auth0 — sign-in
 
+**Already configured in this repo.** `.env.local` holds the tenant
+`dev-ochnr05vkamnxj8r.us.auth0.com` and its SPA client ID, and the dev server is
+pinned to `http://localhost:5174` to match that application's allowed URLs.
+Sign-in should work as soon as you `npm run dev`. `.env.local` is gitignored, so
+a teammate cloning the repo needs their own copy — the two Auth0 values are safe
+to share directly (a SPA client ID is public by design).
+
+To point the app at a **different** Auth0 tenant:
+
 1. Create a free account at [auth0.com](https://auth0.com).
 2. **Applications → Create Application** → name it `MARTA MATE` → choose
    **Single Page Web Application** → Create.
 3. Open the **Settings** tab and copy **Domain** and **Client ID**.
 4. Still in Settings, scroll to **Application URIs** and add
-   `http://localhost:5173` to all three of these fields, then **Save Changes**:
+   `http://localhost:5174` to all three of these fields, then **Save Changes**
+   (the port must match `server.port` in `vite.config.ts`):
    - Allowed Callback URLs
    - Allowed Logout URLs
    - Allowed Web Origins
@@ -134,8 +144,9 @@ All four are optional and independent. Add them in whatever order you like.
 
    Leave `VITE_AUTH0_AUDIENCE` blank unless you have created an Auth0 API.
 
-6. Restart the dev server. The button now reads "Continue securely" and opens
-   Auth0 Universal Login.
+6. Restart the dev server. The button reads "Continue securely" and opens Auth0
+   Universal Login; the sign-in prompt also offers "Create an account", which
+   opens Universal Login on its signup screen.
 
 **Without it:** a clearly labelled local demo session stands in, so `/profile`
 and the save-a-match flow are still demonstrable.
@@ -157,7 +168,7 @@ Verify it is really calling Gemini — the response footer says "Structured
 response from Google Gemini", and:
 
 ```bash
-curl -s -X POST localhost:5173/api/gemini \
+curl -s -X POST localhost:5174/api/gemini \
   -H 'content-type: application/json' \
   -d '{"stationZone":"North Avenue Station","route":"Red Line",
        "delayContext":"Train delayed by 15 minutes","feeling":"uneasy",
@@ -265,8 +276,8 @@ the call-911 state on its own, with or without an API key.
 | Symptom | Fix |
 | --- | --- |
 | Chip still says "demo" after adding a key | Restart `npm run dev`. Env vars load at startup. |
-| `Callback URL mismatch` from Auth0 | Add `http://localhost:5173` (no trailing slash) to Allowed Callback URLs, Logout URLs, **and** Web Origins, then Save. |
-| Port 5173 already in use | `npm run dev -- --port 5174`, and add that URL to Auth0 too. |
+| `Callback URL mismatch` from Auth0 | Add `http://localhost:5174` (no trailing slash) to Allowed Callback URLs, Logout URLs, **and** Web Origins, then Save. |
+| Port 5174 already in use | Free it — `lsof -ti:5174 \| xargs kill`. The port is pinned (`strictPort`) because Auth0 only accepts `http://localhost:5174`. |
 | Audio is silent | Press Play again — browsers block audio before a click. If you have no ElevenLabs key and no MP3s, the fallback uses your OS speech voices. |
 | Gemini returns `"source":"fallback"` | Key is missing, misspelled, or the dev server was not restarted. Check for a stray `VITE_` prefix. |
 | `/pulse` shows "Demo data" | `DATABASE_URL` unset or unreachable, or `sql/001` + `002` not run yet. |

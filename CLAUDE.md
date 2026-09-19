@@ -48,7 +48,7 @@ an inversion.
 **Dev API bridge.** `vite dev` does not run Vercel functions, so
 `scripts/dev-api-plugin.ts` mounts the same handlers on the dev server and
 pushes non-`VITE_` env vars into `process.env`. Local and deployed behaviour
-match; test endpoints with `curl localhost:5173/api/<name>`.
+match; test endpoints with `curl localhost:5174/api/<name>`.
 
 ## The rules that matter most here
 
@@ -103,7 +103,7 @@ integration the code does not have.
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless=old --disable-gpu --hide-scrollbars --window-size=1280,1500 \
   --virtual-time-budget=6000 --screenshot=docs/screenshots/01-landing.png \
-  http://localhost:5173/
+  http://localhost:5174/
 ```
 
 Headless Chrome reports a light OS preference, so that captures light mode. Add

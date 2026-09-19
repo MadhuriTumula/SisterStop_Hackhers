@@ -21,7 +21,7 @@ const SignInPromptModal = ({
   onClose,
   onContinueAnyway,
 }: SignInPromptModalProps) => {
-  const { signIn, mode } = useSession();
+  const { signIn, signUp, mode } = useSession();
 
   if (!open) return null;
 
@@ -67,6 +67,19 @@ const SignInPromptModal = ({
             </button>
           ) : null}
         </div>
+
+        {mode === "auth0" ? (
+          <p className="mt-4 text-center text-xs text-muted">
+            New here?{" "}
+            <button
+              type="button"
+              className="font-semibold text-brand-soft underline"
+              onClick={signUp}
+            >
+              Create an account
+            </button>
+          </p>
+        ) : null}
 
         {mode === "demo" ? (
           <p className="mt-4 text-xs text-muted">

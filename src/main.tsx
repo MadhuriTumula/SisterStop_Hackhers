@@ -20,7 +20,6 @@ const tree = auth0Configured ? (
       ...(audience ? { audience } : {}),
     }}
     cacheLocation="localstorage"
-    useRefreshTokens
   >
     <SessionProvider auth0Configured>
       <App />

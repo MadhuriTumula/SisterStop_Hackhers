@@ -9,6 +9,10 @@ import { devApiPlugin } from "./scripts/dev-api-plugin";
 export default defineConfig({
   plugins: [react(), tailwindcss(), devApiPlugin()],
   server: {
-    port: 5173,
+    // Must match the Auth0 application's Allowed Callback/Logout/Web Origin
+    // URLs exactly. strictPort makes a busy port fail loudly instead of
+    // silently moving to 5175 and breaking the login redirect.
+    port: 5174,
+    strictPort: true,
   },
 });
