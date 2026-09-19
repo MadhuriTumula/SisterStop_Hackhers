@@ -1,4 +1,4 @@
--- MARTA MATE — Tiger Data / TimescaleDB schema
+-- SisterStop — Tiger Data / TimescaleDB schema
 -- Anonymous aggregate events only. No rider identity, no precise location.
 
 CREATE EXTENSION IF NOT EXISTS timescaledb;

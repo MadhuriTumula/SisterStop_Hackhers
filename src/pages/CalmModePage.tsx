@@ -131,7 +131,7 @@ const CalmModePage = () => {
           <SafetyBanner
             className="mt-4"
             tone="urgent"
-            message="What you wrote sounds urgent, so MARTA MATE is showing this before anything else."
+            message="What you wrote sounds urgent, so SisterStop is showing this before anything else."
           />
         ) : null}
 

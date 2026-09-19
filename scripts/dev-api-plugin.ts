@@ -61,7 +61,7 @@ const decorateResponse = (res: ServerResponse) => {
 
 export function devApiPlugin(): Plugin {
   return {
-    name: "marta-mate-dev-api",
+    name: "sisterstop-dev-api",
 
     config(_config, { mode }) {
       // Server-only secrets (GEMINI_API_KEY, ELEVENLABS_API_KEY, DATABASE_URL)

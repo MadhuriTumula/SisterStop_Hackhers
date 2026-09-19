@@ -12,7 +12,7 @@ interface SafetyBannerProps {
 const SafetyBanner = ({
   className,
   tone = "standard",
-  message = "MARTA MATE is a support companion, not emergency response.",
+  message = "SisterStop is a support companion, not emergency response.",
 }: SafetyBannerProps) => (
   <aside
     className={cn(

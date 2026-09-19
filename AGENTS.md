@@ -1,7 +1,7 @@
-# MARTA MATE — Agent Instructions
+# SisterStop — Agent Instructions
 
 ## Product
-MARTA MATE is a privacy-conscious safety and well-being companion for adult women and gender-expansive riders commuting during late-night or nontraditional work hours in Atlanta.
+SisterStop is a privacy-conscious safety and well-being companion for adult women and gender-expansive riders commuting during late-night or nontraditional work hours in Atlanta.
 
 Tagline: "Your calm, connected ride home."
 

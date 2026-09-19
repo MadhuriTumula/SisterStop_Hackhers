@@ -1,9 +1,9 @@
 ---
-description: MARTA MATE product, architecture, and delivery priorities
+description: SisterStop product, architecture, and delivery priorities
 alwaysApply: true
 ---
 
-# MARTA MATE Project Rule
+# SisterStop Project Rule
 
 The project rules now live in Markdown so every agent reads the same source:
 

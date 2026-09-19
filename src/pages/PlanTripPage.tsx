@@ -176,7 +176,7 @@ const PlanTripPage = () => {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="flex items-start gap-2 text-xs text-muted sm:max-w-md">
             <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-calm" aria-hidden="true" />
-            Matching happens on route, station area, and time overlap only. MARTA MATE never
+            Matching happens on route, station area, and time overlap only. SisterStop never
             requests or stores your live location.
           </p>
           <button type="submit" className="btn-primary px-6">

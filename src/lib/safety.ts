@@ -29,10 +29,10 @@ export const detectsUrgentLanguage = (input: string | undefined | null): boolean
 };
 
 export const URGENT_SAFETY_NOTICE =
-  "If you are in immediate danger, call 911 now. MARTA Police can be reached at 404-848-4911 or by texting 404-334-5355. MARTA MATE cannot contact anyone for you.";
+  "If you are in immediate danger, call 911 now. MARTA Police can be reached at 404-848-4911 or by texting 404-334-5355. SisterStop cannot contact anyone for you.";
 
 export const ROUTINE_SAFETY_NOTICE =
-  "MARTA MATE is a support companion, not emergency response. If anything feels urgent, call 911 or use the Safety Hub.";
+  "SisterStop is a support companion, not emergency response. If anything feels urgent, call 911 or use the Safety Hub.";
 
 export const PROTOTYPE_DISCLAIMER =
-  "MARTA MATE is a hackathon prototype for peer support and well-being. It does not replace 911, MARTA Police, or official transit safety services.";
+  "SisterStop is a hackathon prototype for peer support and well-being. It does not replace 911, MARTA Police, or official transit safety services.";

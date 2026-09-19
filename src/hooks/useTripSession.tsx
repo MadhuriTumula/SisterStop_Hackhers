@@ -18,7 +18,7 @@ import { overlapSummary } from "../lib/matching";
  * arrival so nothing about a completed trip lingers.
  */
 
-const STORAGE_KEY = "martamate.tripSession";
+const STORAGE_KEY = "sisterstop.tripSession";
 
 const initialState: TripSessionState = {
   trip: DEFAULT_TRIP,

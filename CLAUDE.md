@@ -1,4 +1,4 @@
-# MARTA MATE — Claude Code project guide
+# SisterStop — Claude Code project guide
 
 Privacy-conscious safety and well-being companion for riders commuting during
 late-night and nontraditional hours in Atlanta. Hackathon MVP (DevelopHER track

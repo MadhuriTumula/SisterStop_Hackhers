@@ -26,9 +26,9 @@ const AppShell = ({ children }: { children: ReactNode }) => {
       <header className="sticky top-0 z-40 border-b border-hairline/70 bg-ink/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3">
           <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label={`${APP_NAME} home`}>
-            <img src="/martamate-mark.svg" alt="" className="h-8 w-8" aria-hidden="true" />
+            <img src="/sisterstop-mark.svg" alt="" className="h-8 w-8" aria-hidden="true" />
             <span className="whitespace-nowrap text-sm font-semibold tracking-tight sm:text-base">
-              MARTA <span className="text-brand-soft">MATE</span>
+              Sister<span className="text-brand-soft">Stop</span>
             </span>
           </Link>
 

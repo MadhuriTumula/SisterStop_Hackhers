@@ -44,8 +44,8 @@ export interface SessionValue {
 
 const SessionContext = createContext<SessionValue | null>(null);
 
-const PREVIEW_KEY = "martamate.preview";
-const DEMO_USER_KEY = "martamate.demoUser";
+const PREVIEW_KEY = "sisterstop.preview";
+const DEMO_USER_KEY = "sisterstop.demoUser";
 
 const usePreviewFlag = () => {
   const [isPreview, setIsPreview] = useState<boolean>(

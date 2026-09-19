@@ -19,7 +19,7 @@ import {
 export type ThemePreference = "system" | "light" | "dark";
 export type ResolvedTheme = "light" | "dark";
 
-export const THEME_STORAGE_KEY = "martamate.theme";
+export const THEME_STORAGE_KEY = "sisterstop.theme";
 
 interface ThemeValue {
   preference: ThemePreference;

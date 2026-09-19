@@ -1,7 +1,7 @@
 # Safety and Privacy Policy
 
 ## Product boundary
-MARTA MATE is a peer-support and well-being prototype. It is not an emergency service, dispatch system, medical provider, security service, or substitute for official transit safety channels.
+SisterStop is a peer-support and well-being prototype. It is not an emergency service, dispatch system, medical provider, security service, or substitute for official transit safety channels.
 
 ## Urgent-risk behavior
 When a user mentions immediate danger, violence, stalking, assault, medical emergency, self-harm, or being followed:
@@ -32,4 +32,4 @@ When a user mentions immediate danger, violence, stalking, assault, medical emer
 
 ## Demo disclaimer
 Show this in the app footer and demo:
-"MARTA MATE is a hackathon prototype for peer support and well-being. It does not replace 911, MARTA Police, or official transit safety services."
+"SisterStop is a hackathon prototype for peer support and well-being. It does not replace 911, MARTA Police, or official transit safety services."

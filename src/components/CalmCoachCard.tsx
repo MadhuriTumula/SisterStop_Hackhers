@@ -124,8 +124,8 @@ const CalmCoachCard = ({ status, response, onAction, onRetry }: CalmCoachCardPro
         {response.source === "gemini"
           ? "Structured response from Google Gemini. Suggestions only — the app never takes an action on your behalf."
           : response.source === "safety-rule"
-            ? "Shown by MARTA MATE's own safety rule, not by the AI model."
-            : "Showing MARTA MATE's built-in support copy while the AI service is unavailable."}
+            ? "Shown by SisterStop's own safety rule, not by the AI model."
+            : "Showing SisterStop's built-in support copy while the AI service is unavailable."}
       </p>
     </section>
   );

@@ -14,7 +14,7 @@ const GROUPS: { kind: SafetyResource["kind"]; title: string; blurb: string }[] =
   {
     kind: "emergency",
     title: "Immediate danger",
-    blurb: "The fastest path to help. MARTA MATE cannot make this call for you.",
+    blurb: "The fastest path to help. SisterStop cannot make this call for you.",
   },
   {
     kind: "transit",
@@ -28,7 +28,7 @@ const GROUPS: { kind: SafetyResource["kind"]; title: string; blurb: string }[] =
   },
   {
     kind: "in_app",
-    title: "In MARTA MATE",
+    title: "In SisterStop",
     blurb: "What this app can actually do for you right now.",
   },
 ];
@@ -59,7 +59,7 @@ const SafetyHubPage = () => {
       <PageHeader
         eyebrow="Safety Hub"
         title="Need help right now?"
-        description="MARTA MATE is a support companion, not emergency response. These are the official channels, unchanged and one tap away."
+        description="SisterStop is a support companion, not emergency response. These are the official channels, unchanged and one tap away."
         action={
           <a className="btn-safety px-6" href="tel:911">
             <PhoneCall className="h-4 w-4" aria-hidden="true" />
@@ -92,7 +92,7 @@ const SafetyHubPage = () => {
       })}
 
       <section className="card p-5">
-        <h2 className="text-sm font-semibold">What MARTA MATE will never do</h2>
+        <h2 className="text-sm font-semibold">What SisterStop will never do</h2>
         <ul className="mt-3 grid gap-2 text-sm text-muted sm:grid-cols-2">
           <li>Contact 911, MARTA Police, or anyone else on your behalf.</li>
           <li>Decide for you whether a situation is an emergency.</li>

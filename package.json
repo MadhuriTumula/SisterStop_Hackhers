@@ -1,9 +1,9 @@
 {
-  "name": "marta-mate",
+  "name": "sisterstop",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "MARTA MATE — your calm, connected ride home. A privacy-conscious safety and well-being companion for late-shift transit riders.",
+  "description": "SisterStop — your calm, connected ride home. A privacy-conscious safety and well-being companion for late-shift transit riders.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

@@ -1,18 +1,18 @@
 # Devpost Draft
 
 ## Project title
-MARTA MATE — Your calm, connected ride home
+SisterStop — Your calm, connected ride home
 
 ## Elevator pitch (under 200 characters)
-MARTA MATE connects women on late-night commutes with ride buddies, discreet safety support, and AI-guided tools for calmer, safer trips.
+SisterStop connects women on late-night commutes with ride buddies, discreet safety support, and AI-guided tools for calmer, safer trips.
 
 ## Inspiration
 Women working late shifts often commute when they have fewer transportation options, less predictable transit conditions, and fewer people around them. A delayed train, an unfamiliar station, or an uncomfortable interaction can turn an ordinary ride home into an isolating and stressful experience.
 
-We created MARTA MATE to make late-night commuting feel less lonely and more supported. Rather than replacing emergency services or transit safety systems, MARTA MATE complements them by helping riders connect with peers, access discreet support tools, and regulate stress in the moment.
+We created SisterStop to make late-night commuting feel less lonely and more supported. Rather than replacing emergency services or transit safety systems, SisterStop complements them by helping riders connect with peers, access discreet support tools, and regulate stress in the moment.
 
 ## What it does
-MARTA MATE is a safety and mental-wellness companion for women commuting during nontraditional hours. Users can:
+SisterStop is a safety and mental-wellness companion for women commuting during nontraditional hours. Users can:
 
 - Find opt-in Virtual Buddies traveling on the same route during a similar time window
 - Request a same-car, walk-to-station, or arrival check-in companion

@@ -1,7 +1,7 @@
 import type { TrustedContact } from "../types/safety";
 
 /**
- * Prototype contacts. Handles are masked on purpose — MARTA MATE does not
+ * Prototype contacts. Handles are masked on purpose — SisterStop does not
  * store real phone numbers or send real messages in this build.
  */
 export const mockTrustedContacts: TrustedContact[] = [

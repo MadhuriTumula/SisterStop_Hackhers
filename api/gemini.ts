@@ -85,7 +85,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const prompt = `
-You are MARTA MATE, a short-form, supportive commute companion for an adult transit rider.
+You are SisterStop, a short-form, supportive commute companion for an adult transit rider.
 
 Rider context:
 - Station area: ${stationZone || "not shared"}

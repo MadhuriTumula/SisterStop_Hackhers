@@ -78,7 +78,7 @@ const LandingPage = () => {
               ? mode === "auth0"
                 ? "Your account is protected by Auth0, and the alias other riders see stays separate from it. Pick up where you left off — plan tonight's trip, or open the support tools on their own."
                 : "You are in a local demo session. Pick up where you left off — plan tonight's trip, or open the support tools on their own."
-              : "MARTA MATE is a companion for riders whose schedules do not match the 9-to-5: nurses, hospitality and retail staff, students, and caregivers. Find a buddy on your route, steady yourself during a delay, and keep official safety options one tap away."}
+              : "SisterStop is a companion for riders whose schedules do not match the 9-to-5: nurses, hospitality and retail staff, students, and caregivers. Find a buddy on your route, steady yourself during a delay, and keep official safety options one tap away."}
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -194,14 +194,14 @@ const LandingPage = () => {
         </ul>
         <p className="mt-5 flex items-start gap-2 rounded-xl bg-elevated/70 p-4 text-sm text-muted">
           <KeyRound className="mt-0.5 h-4 w-4 shrink-0 text-calm" aria-hidden="true" />
-          Trust begins before matching. Auth0 handles sign-in, so MARTA MATE never
+          Trust begins before matching. Auth0 handles sign-in, so SisterStop never
           stores your password — and your account identity stays separate from the
           alias, route, and time window other riders can see.
         </p>
 
         <p className="mt-3 flex items-start gap-2 rounded-xl bg-elevated/70 p-4 text-sm text-muted">
           <AudioLines className="mt-0.5 h-4 w-4 shrink-0 text-brand-soft" aria-hidden="true" />
-          Comfort audio is clearly labelled as a comfort tool. MARTA MATE never imitates
+          Comfort audio is clearly labelled as a comfort tool. SisterStop never imitates
           police, dispatch, transit staff, or a real person, and it cannot contact anyone
           on your behalf.
         </p>

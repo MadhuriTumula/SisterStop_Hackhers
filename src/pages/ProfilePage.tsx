@@ -11,7 +11,7 @@ import { routeIds } from "../data/mockRoutes";
 import type { SupportPreference } from "../types/buddy";
 import { cn } from "../lib/utils";
 
-const PREFS_KEY = "martamate.preferences";
+const PREFS_KEY = "sisterstop.preferences";
 
 interface Preferences {
   alias: string;
@@ -55,7 +55,7 @@ const ProfilePage = () => {
       <EmptyState
         icon={KeyRound}
         title="Sign in to open your profile"
-        description="Your profile holds saved preferences and check-in history, so it stays behind authentication. Every other screen in MARTA MATE works without an account."
+        description="Your profile holds saved preferences and check-in history, so it stays behind authentication. Every other screen in SisterStop works without an account."
       >
         <button type="button" className="btn-primary" onClick={signIn}>
           {mode === "auth0" ? "Continue securely with Auth0" : "Use local demo sign-in"}
@@ -99,7 +99,7 @@ const ProfilePage = () => {
             <dd className="mt-1 text-sm">
               {user?.email
                 ? `${user.email.slice(0, 2)}•••@${user.email.split("@")[1] ?? ""}`
-                : "Not shared with MARTA MATE"}
+                : "Not shared with SisterStop"}
             </dd>
           </div>
           <div className="rounded-xl bg-elevated/60 p-4">

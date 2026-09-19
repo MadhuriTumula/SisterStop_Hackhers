@@ -1,19 +1,19 @@
 # Product Context
 
 ## Product name
-MARTA MATE
+SisterStop
 
 ## Tagline
 Your calm, connected ride home.
 
 ## Core statement
-MARTA MATE is a privacy-conscious safety and well-being companion for people commuting during late-night and nontraditional work hours.
+SisterStop is a privacy-conscious safety and well-being companion for people commuting during late-night and nontraditional work hours.
 
 ## User problem
 Late-shift riders can experience uncertainty, isolation, stress, service delays, and discomfort while traveling. Existing transit and safety tools may not offer peer connection, a calming in-the-moment experience, and practical safety resources in one supportive flow.
 
 ## Solution
-MARTA MATE combines:
+SisterStop combines:
 - Opt-in peer connection through Virtual Buddies
 - AI-guided Calm Mode for short, structured support
 - Voice-based comfort and grounding tools

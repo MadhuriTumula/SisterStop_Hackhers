@@ -6,7 +6,7 @@ const NotFoundPage = () => (
   <EmptyState
     icon={Compass}
     title="That screen does not exist"
-    description="The link may be out of date. Everything in MARTA MATE is reachable from the trip planner or the Safety Hub."
+    description="The link may be out of date. Everything in SisterStop is reachable from the trip planner or the Safety Hub."
   >
     <Link to="/plan" className="btn-primary">
       Plan a trip

@@ -2,7 +2,7 @@ import type { SafetyResource } from "../types/safety";
 import type { AudioType, CalmFeeling } from "../types/api";
 import type { TripRequest } from "../types/buddy";
 
-export const APP_NAME = "MARTA MATE";
+export const APP_NAME = "SisterStop";
 export const APP_TAGLINE = "Your calm, connected ride home.";
 
 /** The demo opens on Maya's scenario so a 90-second run needs no typing. */

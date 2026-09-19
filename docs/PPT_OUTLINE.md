@@ -1,7 +1,7 @@
 # Pitch Deck Outline (7 slides)
 
 ## Slide 1 — Title
-MARTA MATE
+SisterStop
 *Your calm, connected ride home.*
 Team names · Hackathon name · DevelopHER Track
 

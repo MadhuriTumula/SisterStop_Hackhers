@@ -1,7 +1,7 @@
 # Sponsor Track Plan
 
 ## Primary Track: DevelopHER
-MARTA MATE supports women working nontraditional hours through peer connection, safety-oriented design, and mental well-being tools.
+SisterStop supports women working nontraditional hours through peer connection, safety-oriented design, and mental well-being tools.
 
 ## Google Gemini API
 Feature: Calm Coach

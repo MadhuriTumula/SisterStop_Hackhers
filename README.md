@@ -1,4 +1,4 @@
-# MARTA MATE
+# SisterStop
 
 > Your calm, connected ride home.
 
@@ -103,7 +103,7 @@ Or from the terminal:
 
 ```bash
 curl localhost:5174/api/health
-# {"ok":true,"app":"MARTA MATE","integrations":{"gemini":true,...}}
+# {"ok":true,"app":"SisterStop","integrations":{"gemini":true,...}}
 ```
 
 Booleans only — the endpoint never returns key material.
@@ -126,7 +126,7 @@ to share directly (a SPA client ID is public by design).
 To point the app at a **different** Auth0 tenant:
 
 1. Create a free account at [auth0.com](https://auth0.com).
-2. **Applications → Create Application** → name it `MARTA MATE` → choose
+2. **Applications → Create Application** → name it `SisterStop` → choose
    **Single Page Web Application** → Create.
 3. Open the **Settings** tab and copy **Domain** and **Client ID**.
 4. Still in Settings, scroll to **Application URIs** and add
@@ -333,7 +333,7 @@ files point at the same documents so Cursor and Claude Code stay in sync.
 
 ## 8. Safety disclaimer
 
-MARTA MATE is a hackathon prototype for peer support and well-being. It does not
+SisterStop is a hackathon prototype for peer support and well-being. It does not
 replace 911, MARTA Police, or official transit safety services. It does not
 guarantee safety, and it cannot contact emergency services on anyone's behalf.
 

@@ -10,7 +10,7 @@ Maya is a healthcare worker leaving a late shift.
 Maya is traveling from North Avenue Station on the Red Line. Her train is delayed. She feels uneasy waiting alone and wants a quiet check-in companion.
 
 ## Demo sequence
-1. Open MARTA MATE landing page.
+1. Open SisterStop landing page.
 2. Sign in securely with Auth0.
 3. Plan trip: North Avenue, Red Line, 10:15 PM, same-car buddy.
 4. Show matching Virtual Buddy cards.
@@ -23,7 +23,7 @@ Maya is traveling from North Avenue Station on the Red Line. Her train is delaye
 11. End with arrival check-in and Community Pulse impact visualization.
 
 ## Narration
-"MARTA MATE does not replace emergency services or MARTA's official safety tools. It creates a privacy-conscious support layer: connection, calm, and clear options during stressful commutes."
+"SisterStop does not replace emergency services or MARTA's official safety tools. It creates a privacy-conscious support layer: connection, calm, and clear options during stressful commutes."
 
 ## Click path for the recording
 ```text

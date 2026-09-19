@@ -116,7 +116,7 @@ const MatchPage = () => {
 
         <p className="mt-4 text-xs leading-relaxed text-muted">
           Privacy: your exact destination, contact details, and legal name are not shared.
-          MARTA MATE does not track either of you and does not tell {buddy.alias} if you
+          SisterStop does not track either of you and does not tell {buddy.alias} if you
           leave.
         </p>
       </section>
