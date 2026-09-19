@@ -93,6 +93,14 @@ integration the code does not have.
   prop on a custom `LabelList` content component gets overwritten by the bar
   color. Pass it under a different name (`labelFill`) — values must wear text
   tokens, never the series color.
+- **Gemini 3.x spends output tokens on thinking before it answers.** A 500-token
+  cap produced 476 thought tokens and 9 content tokens — truncated JSON,
+  `finishReason: MAX_TOKENS`, silently degrading to fallback copy. The handler
+  now uses `thinkingLevel: LOW` with 2048 output tokens. If Calm Coach starts
+  returning fallback for no clear reason, check `finishReason` first.
+- **Model names expire.** `gemini-2.5-flash` returned 404 "no longer available
+  to new users" mid-build. `api/gemini.ts` tries a list of models in order;
+  `GET /v1beta/models?key=…` lists what a given key can actually reach.
 - **Headless Chrome clamps window width** to roughly 500px, so a `--window-size=390`
   screenshot looks clipped when the layout is fine. Verify mobile at 500px
   (still below the `sm` breakpoint).

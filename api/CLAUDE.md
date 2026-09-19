@@ -21,7 +21,11 @@ secret to every visitor. `api/health.ts` reports booleans only.
 ## Per integration
 
 **Gemini** (`gemini.ts`) — structured JSON via `responseSchema`, re-validated
-with Zod on the client. Keep outputs short and UI-ready. The model suggests an
+with Zod on the client. Models are tried in order (`GEMINI_MODEL` override
+first) because names get retired and busy models return 503. Keep
+`thinkingLevel: LOW` and a generous `maxOutputTokens`: 3.x models spend output
+budget on thought, and a truncated reply fails `JSON.parse` and silently
+degrades to fallback copy. Keep outputs short and UI-ready. The model suggests an
 action; the app executes it. `detectsUrgentLanguage` from `src/lib/safety.ts`
 runs *before* the call (short-circuits to the urgent response) and *after* it
 (escalates the model's reply). Do not let a prompt own that decision, and do not

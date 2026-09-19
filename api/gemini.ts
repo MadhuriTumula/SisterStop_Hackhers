@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import {
   ROUTINE_SAFETY_NOTICE,
@@ -11,7 +11,24 @@ import {
  * instead of prose. The model suggests; the app decides what an action does.
  */
 
-const MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+/**
+ * Tried in order. Model availability shifts (2.5-flash was retired for new API
+ * keys mid-build) and a busy model returns 503, so one stale name should not
+ * drop the whole feature to fallback copy.
+ */
+const MODELS = [
+  process.env.GEMINI_MODEL,
+  "gemini-3.8-flash",
+  "gemini-3.6-flash",
+].filter((model): model is string => Boolean(model));
+
+/**
+ * Gemini 3.x spends output tokens on thinking before it writes. A short,
+ * schema-shaped support message needs none of it: at the previous 500-token
+ * cap the model burned 476 on thought and emitted truncated JSON. Low thinking
+ * plus real headroom keeps replies complete and the demo responsive.
+ */
+const MAX_OUTPUT_TOKENS = 2048;
 
 interface CalmCoachPayload {
   supportMessage: string;
@@ -107,36 +124,41 @@ Safety policy:
 - Return only valid JSON matching the schema.
 `;
 
-  try {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-    const response = await ai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema,
-        temperature: 0.7,
-        maxOutputTokens: 500,
-      },
-    });
+  for (const model of MODELS) {
+    try {
+      const response = await ai.models.generateContent({
+        model,
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema,
+          temperature: 0.7,
+          maxOutputTokens: MAX_OUTPUT_TOKENS,
+          thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+        },
+      });
 
-    const text = response.text ?? JSON.stringify(fallbackResponse);
-    const parsed = JSON.parse(text) as CalmCoachPayload;
+      // A truncated response parses as invalid JSON and falls through to the
+      // next model rather than rendering half a sentence.
+      const parsed = JSON.parse(response.text ?? "") as CalmCoachPayload;
 
-    // Second pass: if the model's own wording signals urgency, escalate.
-    const escalate =
-      parsed.urgency === "urgent" || detectsUrgentLanguage(parsed.supportMessage);
+      // Second pass: if the model's own wording signals urgency, escalate.
+      const escalate =
+        parsed.urgency === "urgent" || detectsUrgentLanguage(parsed.supportMessage);
 
-    return res.status(200).json({
-      ...parsed,
-      urgency: escalate ? "urgent" : "routine",
-      safetyNotice: escalate ? URGENT_SAFETY_NOTICE : parsed.safetyNotice,
-      source: "gemini",
-      model: MODEL,
-    });
-  } catch (error) {
-    console.error("Gemini error", error);
-    return res.status(200).json({ ...fallbackResponse, source: "fallback" });
+      return res.status(200).json({
+        ...parsed,
+        urgency: escalate ? "urgent" : "routine",
+        safetyNotice: escalate ? URGENT_SAFETY_NOTICE : parsed.safetyNotice,
+        source: "gemini",
+        model,
+      });
+    } catch (error) {
+      console.error(`Gemini error (${model})`, error);
+    }
   }
+
+  return res.status(200).json({ ...fallbackResponse, source: "fallback" });
 }
