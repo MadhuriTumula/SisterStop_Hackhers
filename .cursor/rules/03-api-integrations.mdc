@@ -6,30 +6,5 @@ alwaysApply: false
 
 # API Integration Rule
 
-All external integrations must have:
-1. Environment variable validation.
-2. Typed request and response contracts.
-3. Safe fallback behavior for local demos and missing keys.
-4. User-friendly error states.
-5. No API secrets exposed in client-side code.
-
-Gemini:
-- Use structured JSON response validated with Zod.
-- Keep outputs short and UI-ready.
-- Include emergency escalation behavior but do not let the model take actions.
-- Never send unnecessary personal data.
-
-ElevenLabs:
-- Use a server endpoint only.
-- Provide a static local audio fallback if the API is unavailable.
-- Never generate or describe audio as emergency dispatch or law enforcement.
-
-Auth0:
-- Protect account pages and profile-related flows.
-- Keep public demo screens usable where appropriate.
-- Never display raw tokens.
-
-Tiger Data:
-- Store anonymous events only.
-- Use timestamps and aggregate charts.
-- Never build charts that reveal individual rider behavior.
+See `api/CLAUDE.md` for the handler contract, secret handling, and the
+per-integration rules for Gemini, ElevenLabs, Tiger Data, and buddy matching.

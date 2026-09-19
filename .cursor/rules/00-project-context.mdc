@@ -5,19 +5,10 @@ alwaysApply: true
 
 # MARTA MATE Project Rule
 
-You are building MARTA MATE, a privacy-conscious safety and well-being companion for late-night and nontraditional-hour transit riders in Atlanta.
+The project rules now live in Markdown so every agent reads the same source:
 
-Read AGENTS.md and docs/PRODUCT_CONTEXT.md before major work.
+- `AGENTS.md` — product, users, safety principles, approved UI vocabulary
+- `CLAUDE.md` — commands, architecture, delivery rules, repo gotchas
+- `docs/SAFETY_POLICY.md` — safety and privacy policy
 
-Prioritize a complete, polished, demoable journey over feature quantity:
-Landing -> Login -> Plan Trip -> Virtual Buddies -> Match -> Calm Mode -> Safety Hub -> Arrival Check-In.
-
-Use TypeScript, functional React components, clear interfaces, and modular components.
-
-Use deterministic seed data and API fallbacks so the demo remains functional without keys or network access.
-
-Do not introduce exact GPS tracking, public rider maps, real emergency dispatch, or real peer-to-peer chat.
-
-Before adding a dependency, consider whether native browser APIs or existing packages can solve the problem.
-
-Use accessible semantic markup, keyboard-friendly controls, labels, visible focus states, and mobile-first layout.
+Read `AGENTS.md` and `CLAUDE.md` before any significant change.

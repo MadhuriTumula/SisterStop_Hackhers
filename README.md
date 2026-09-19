@@ -142,12 +142,18 @@ MARTA's published safety page — re-verify them before any live demo.
 ## Project structure
 
 ```
+CLAUDE.md   Agent guide: commands, architecture, safety rules, repo gotchas
 api/        Vercel serverless handlers (Gemini, ElevenLabs, matching, pulse, health)
 docs/       Product, safety, sponsor, demo, and submission context
 sql/        Tiger Data schema, seed, and continuous aggregate
 scripts/    Dev-server API bridge + ElevenLabs audio generator
 src/        React app — components, pages, hooks, lib, seed data, types
 ```
+
+Agent instructions live in Markdown: `AGENTS.md` (product and safety
+principles), `CLAUDE.md` (working in the repo), and directory-scoped
+`src/CLAUDE.md` and `api/CLAUDE.md`. The `.cursor/rules/*.mdc` files point at
+the same documents so Cursor and Claude Code stay in sync.
 
 Start with `AGENTS.md` and `docs/SAFETY_POLICY.md` before changing anything that
 touches safety language or matching privacy.
